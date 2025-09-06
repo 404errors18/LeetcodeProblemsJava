@@ -260,6 +260,16 @@ Arrays.fill(a, 0);             // [0,0,0,0]
 int[] b = Arrays.copyOf(a, 6); // [0,0,0,0,0,0]
 ```
 
+```java
+// 优先级排序规则链
+Arrays.sort(arr, Comparator.comparingInt((Point p) -> p.x)       // x 升序
+                        .thenComparing(Comparator.comparingInt((Point p) -> p.y).reversed()) // y 降序
+                        .thenComparing(Comparator.comparing((Point p) -> p.name).reversed()) // name 降序
+        );
+```
+
+
+
 ------
 
 ## ArrayList（List）
