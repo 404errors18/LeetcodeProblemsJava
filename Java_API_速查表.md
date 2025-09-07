@@ -412,13 +412,7 @@ int top2 = maxHeap.peek(); // 3
 
 ------
 
-## Deque / ArrayDeque（推荐代替 Stack/Queue）
-
-### 如何创建（多种方式 & 推荐）
-
-- `Deque<Integer> dq = new ArrayDeque<>();` — 推荐（高效、无 null 支持）。
-- `Deque<Integer> dq = new LinkedList<>();` — 也可用，但 `ArrayDeque` 更快且内存高效。
-- `Stack` 仍可用：`new Stack<>()`，但已过时，不推荐。
+## LinkedBlockingDeque 双端队列
 
 ### 常用方法（表格）
 
@@ -433,17 +427,31 @@ int top2 = maxHeap.peek(); // 3
 ### 示例代码
 
 ```java
-import java.util.Deque;
-import java.util.ArrayDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
-Deque<Integer> dq = new ArrayDeque<>();
-dq.offerLast(1);
-dq.offerFirst(2);  // [2,1]
-int head = dq.pollFirst(); // 2
-int tail = dq.pollLast();  // 1
+/**
+  * 双端队列示例
+  */
+static class LinkedBlockingDequeTest {
+    public static void main(String[] args) {
+        // 创建一个双端队列
+        LinkedBlockingDeque<String> deque = new LinkedBlockingDeque<>();
+        deque.offer("offer"); // 插入首个元素
+        deque.offerFirst("offerFirst"); // 队头插入元素
+        deque.offerLast("offerLast"); // 队尾插入元素
+        while (!deque.isEmpty()) {
+            // 从头遍历打印
+            System.out.println(deque.poll());
+        }
+    }
+}
 ```
 
-------
+
+
+---
+
+
 
 ## 进制转换
 
