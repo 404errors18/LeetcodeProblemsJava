@@ -315,6 +315,100 @@ list.remove(0);        // 删除索引 0 的元素
 - `Map<K,V> map = new HashMap<>(initialCapacity, loadFactor);` — 高并发/大数据量场景可调参数以减少扩容或冲突。
 - `Map.of(...)` / `Map.copyOf(...)` — Java 9+ 的不可变 Map，用于常量初始化（不可修改）。
 
+- **HashMap**
+
+  - 基于 **哈希表** 实现，存储键值对（key-value）。
+  - **无序**（迭代时元素顺序不固定，和插入顺序可能完全不同）。
+  - key 不允许重复，允许 1 个 `null` key，value 可以重复、允许多个 `null` value。
+
+- **LinkedHashMap**
+
+  - 是 **HashMap 的子类**，继承了它的所有特性。
+
+  - **在 HashMap 的基础上，增加了一条双向链表** 来维护元素的顺序。
+
+  - 可以保证元素的迭代顺序：
+
+    - **插入顺序（默认）**：按照放入 map 的顺序遍历。
+    - **访问顺序（可选）**：可以构造时传 `accessOrder=true`，使得最近访问的元素排到最后 → 可用于实现 **LRU 缓存**。
+
+  - ```java
+    // 默认：按插入顺序遍历
+    LinkedHashMap<String, Integer> map1 = new LinkedHashMap<>();
+    
+    // 指定初始容量、加载因子
+    LinkedHashMap<String, Integer> map2 = new LinkedHashMap<>(16, 0.75f);
+    
+    // accessOrder=true 表示使用访问顺序
+    LinkedHashMap<String, Integer> map3 = new LinkedHashMap<>(16, 0.75f, true);
+    ```
+
+  - 在 **`LinkedHashMap`** 中调用 `get(key)` 时：
+
+    1. key 存在的情况
+       - 返回对应的 value。
+       - 如果构造时 `accessOrder=true`，则该节点会被移动到链表末尾，表示“最近访问”。否则，仅更新键的值
+    2. key 不存在的情况
+       - 返回 `null`。
+       - 不会抛异常。
+       - 也不会影响已有数据的顺序（不会新增节点）。
+
+  - 在 **`new LinkedHashMap<>(capacity)`** 的时候，`capacity` 只是 **初始容量**，并不是最大容量限制。
+
+    **具体行为：**
+
+    - **当 put 超过 `capacity`**
+       → **不会报错**。
+       → **也不会自动删除最久未使用的 key**。
+       → 容量会自动扩容（默认负载因子 0.75，超出阈值时，内部数组会扩容为原来的 2 倍）。
+
+  - 得到 **最久未使用的 key**（如果 `accessOrder=true`）
+
+    ```java
+    Integer eldestKey = map.entrySet().iterator().next().getKey();
+    // 或
+    Integer eldestKey = map.keySet().iterator().next()
+    ```
+
+  - 如果你希望超过容量时删除最久未使用的 key（LRU 缓存效果）：
+
+    可以通过 **覆写 `removeEldestEntry` 方法**实现。
+
+    ```java
+    import java.util.LinkedHashMap;
+    import java.util.Map;
+    
+    public class LRUCache<K, V> extends LinkedHashMap<K, V> {
+        private final int maxCapacity;
+    
+        public LRUCache(int maxCapacity) {
+            super(maxCapacity, 0.75f, true); // accessOrder = true 代表按访问顺序排序
+            this.maxCapacity = maxCapacity;
+        }
+    
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+            return size() > maxCapacity; // 超过容量则移除最旧的
+        }
+    
+        public static void main(String[] args) {
+            LRUCache<Integer, String> cache = new LRUCache<>(2);
+    
+            cache.put(1, "A");
+            cache.put(2, "B");
+            cache.put(3, "C"); // 超过容量，移除最久未使用的 key=1
+    
+            System.out.println(cache); // 输出 {2=B, 3=C}
+        }
+    }
+    ```
+
+  - 
+
+  
+
+  
+
 ### 常用方法（表格）
 
 | 方法                              | import                              | 作用                                      | 入参              | 出参           | 时间复杂度                                | 空间复杂度 | 注意事项                                               |
