@@ -445,6 +445,108 @@ int tail = dq.pollLast();  // 1
 
 ------
 
+## 进制转换
+
+### 1. `Integer.toString(int i, int radix)`
+
+- 把整数转为 **指定进制字符串**。
+
+| 方法                                 | import                      | 作用                     | 入参                           | 出参       | 时间复杂度     | 空间复杂度 | 注意事项        |
+| ------------------------------------ | --------------------------- | ------------------------ | ------------------------------ | ---------- | -------------- | ---------- | --------------- |
+| `Integer.toString(int i, int radix)` | `import java.lang.Integer;` | 将整数转为指定进制字符串 | `i`：整数，`radix`：进制(2~36) | 进制字符串 | O(log₍radix₎n) | O(1)       | radix 范围 2~36 |
+
+示例：
+
+```
+System.out.println(Integer.toString(10, 2));  // "1010" (二进制)
+System.out.println(Integer.toString(255, 16)); // "ff" (十六进制)
+```
+
+### 2. `Integer.parseInt(String s, int radix)`
+
+- 把 **指定进制字符串** 转为整数。
+
+| 方法                                    | 作用                         | 入参                 | 出参 | 时间复杂度 | 注意事项                                     |
+| --------------------------------------- | ---------------------------- | -------------------- | ---- | ---------- | -------------------------------------------- |
+| `Integer.parseInt(String s, int radix)` | 将指定进制字符串转十进制整数 | 字符串 s, 进制 radix | int  | O(n)       | 字符串必须合法，否则 `NumberFormatException` |
+
+示例：
+
+```
+System.out.println(Integer.parseInt("1010", 2));  // 10
+System.out.println(Integer.parseInt("ff", 16));   // 255
+```
+
+### 3. `Integer.toBinaryString(int i)` / `toHexString(int i)` / `toOctalString(int i)`
+
+- 常用进制的快捷方法。
+
+| 方法                            | 作用       | 入参 | 出参   | 时间复杂度 | 注意事项     |
+| ------------------------------- | ---------- | ---- | ------ | ---------- | ------------ |
+| `Integer.toBinaryString(int i)` | 转二进制   | int  | String | O(log n)   | 输出无前导 0 |
+| `Integer.toHexString(int i)`    | 转十六进制 | int  | String | O(log n)   | 小写字母表示 |
+| `Integer.toOctalString(int i)`  | 转八进制   | int  | String | O(log n)   | 少用         |
+
+示例：
+
+```
+System.out.println(Integer.toBinaryString(10)); // "1010"
+System.out.println(Integer.toHexString(255));   // "ff"
+System.out.println(Integer.toOctalString(64));  // "100"
+```
+
+### 4. `Long` 系列（大数处理）
+
+- `Long.toString(long l, int radix)`
+- `Long.parseLong(String s, int radix)`
+   👉 用法与 `Integer` 系列一致，只是输入/输出为 `long`。
+
+### 5. `BigInteger`（超大整数）
+
+- 处理超过 `long` 的大整数。
+
+| 方法                                    | import                         | 作用                     | 入参              | 出参       | 注意事项       |
+| --------------------------------------- | ------------------------------ | ------------------------ | ----------------- | ---------- | -------------- |
+| `new BigInteger(String val, int radix)` | `import java.math.BigInteger;` | 将指定进制字符串转大整数 | 字符串 val, radix | BigInteger | 字符串需合法   |
+| `bigInteger.toString(int radix)`        | `import java.math.BigInteger;` | 将大整数转指定进制字符串 | radix             | String     | 支持任意大整数 |
+
+示例：
+
+```
+import java.math.BigInteger;
+
+BigInteger big = new BigInteger("1010", 2); // 二进制转大整数
+System.out.println(big); // 10
+System.out.println(big.toString(16)); // "a"
+```
+
+### 📘 总结速查表
+
+| 需求              | 方法                         | 推荐度 | 备注           |
+| ----------------- | ---------------------------- | ------ | -------------- |
+| 十进制 → 指定进制 | `Integer.toString(n, radix)` | ⭐⭐⭐⭐   | 2~36 任意进制  |
+| 指定进制 → 十进制 | `Integer.parseInt(s, radix)` | ⭐⭐⭐⭐   | 高频刷题       |
+| 十进制 → 二进制   | `Integer.toBinaryString(n)`  | ⭐⭐⭐⭐⭐  | 高频           |
+| 十进制 → 十六进制 | `Integer.toHexString(n)`     | ⭐⭐⭐⭐   | 高频           |
+| 十进制 → 八进制   | `Integer.toOctalString(n)`   | ⭐⭐     | 较少用         |
+| 超大数进制转换    | `BigInteger`                 | ⭐⭐⭐    | 大数相关题必用 |
+
+### 📘 使用场景
+
+- **LeetCode 高频**
+  - 判断回文二进制（`Integer.toBinaryString`）
+  - 进制互转（`parseInt` ↔ `toString`）
+  - 大数题（`BigInteger`）
+- **实际开发**
+  - 编码/解码（十六进制、Base36）
+  - 存储压缩（用较小进制存储）
+
+
+
+---
+
+
+
 # 中频使用（常考）
 
 > 刷题时常遇到（特定题型会用到），熟悉即可，遇到题型时回忆使用方式。
