@@ -531,7 +531,31 @@ int top2 = maxHeap.peek(); // 3
 
 ------
 
-## LinkedBlockingDeque 双端队列
+## LinkedBlockingDeque 双端阻塞队列
+
+### 注意事项
+
+若在创建时指定了长度，则长度后续不变，队列已满时，不同方法的表现不一样：
+
+**① 抛异常（不推荐用于生产）**
+
+- `add(E e)` → 如果队列满，抛 `IllegalStateException: Deque full`。
+- `addFirst(E e)` / `addLast(E e)` → 同样抛异常。
+
+**② 返回状态（推荐刷题或一般项目用）**
+
+- `offer(E e)` → 如果队列满，返回 `false`。
+- `offerFirst(E e)` / `offerLast(E e)` → 如果队列满，返回 `false`。
+
+**③ 阻塞等待（常用于多线程场景）**
+
+- `put(E e)` → 如果队列满，会阻塞，直到有空间。
+- `putFirst(E e)` / `putLast(E e)` → 同理，阻塞等待。
+
+**④ 超时等待**
+
+- `offer(E e, long timeout, TimeUnit unit)`
+   → 如果队列满，会等待一段时间，如果还是没空位，返回 `false`。
 
 ### 常用方法（表格）
 
