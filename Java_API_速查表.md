@@ -66,21 +66,27 @@ public class ArrayCopyDemo {
 
 ### 常用方法（表格）
 
-| 方法                           | import                     | 作用                                                       | 入参                                      | 出参                                      | 时间复杂度                   | 空间复杂度 | 注意事项                                                     |
-| ------------------------------ | -------------------------- | ---------------------------------------------------------- | ----------------------------------------- | ----------------------------------------- | ---------------------------- | ---------- | ------------------------------------------------------------ |
-| `s.charAt(i)`                  | —                          | 取字符                                                     | `int i`                                   | `char`                                    | O(1)                         | O(1)       | 越界抛 `StringIndexOutOfBoundsException`                     |
-| `s.length()`                   | —                          | 字符串长度                                                 | —                                         | `int`                                     | O(1)                         | O(1)       | —                                                            |
-| `s.substring(l,r)`             | —                          | 截子串 `[l,r)`                                             | `int l, int r`                            | `String`                                  | O(r-l)                       | O(r-l)     | 左闭右开，注意复制（会新建字符串）                           |
-| `s.toCharArray()`              | —                          | 转 `char[]`                                                | —                                         | `char[]`                                  | O(n)                         | O(n)       | 双指针常用                                                   |
-| `s.toLowerCase()`              | -                          | 将字符串中的所有字符转为小写（默认使用 JVM 的默认 Locale） | -                                         | `String`                                  | O(n)                         | O(n)       | 依赖默认 `Locale`，不同地区默认 Locale 可能导致结果差异（如土耳其语的 "I" 转换问题） |
-| `s.toLowerCase(Locale locale)` | `import java.util.Locale;` | 将字符串中的所有字符转为小写，使用指定的 `Locale`          | Locale 对象                               | `String`                                  | O(n)                         | O(n)       | 推荐在国际化/跨地区环境中使用，避免因默认 `Locale` 不同导致的不一致结果 |
-| `s.indexOf()`                  | -                          | 查找子串或字符在字符串中首次出现的位置                     | 字符/字符串，起始下标（可选）             | `int`<br />找到返回下标<br />找不到返回-1 | O(n·m)（n=原串长，m=子串长） |            | 若 str 为空串，返回 0                                        |
-| `s.lastIndexOf()`              | -                          | 查找字串或字符最后一次出现的位置                           | 字符/字符串，起始下标（可选）（向前搜索） | `int`<br />找到返回下标<br />找不到返回-1 | O(n·m)（n=原串长，m=子串长） |            | 空串返回 length()                                            |
-| `s.startsWith()`               | -                          | 判断字符串是否以指定前缀开头                               | 前缀子串, 偏移量（可选）                  | `boolean`                                 | O(m)（m=前缀长度）           |            | 区分大小写                                                   |
-| `s.endsWith()`                 | -                          | 判断是否以 suffix 结尾                                     | 后缀子串                                  | `boolean`                                 | O(m)（m=后缀长度）           |            | 区分大小写                                                   |
-| `sb.append(x)`                 | —                          | 追加                                                       | 任意 `x`                                  | `StringBuilder`                           | O(1) 均摊                    | O(1)       | 推荐代替 `+` 拼接                                            |
-| `sb.reverse()`                 | —                          | 反转                                                       | —                                         | `StringBuilder`                           | O(n)                         | O(1)       | 原地反转                                                     |
-| `sb.toString()`                | —                          | 转 `String`                                                | —                                         | `String`                                  | O(n)                         | O(n)       | 返回新字符串                                                 |
+| 方法                               | import                     | 作用                                                         | 入参                                                         | 出参                                      | 时间复杂度                   | 空间复杂度 | 注意事项                                                     |
+| ---------------------------------- | -------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------- | ---------------------------- | ---------- | ------------------------------------------------------------ |
+| `s.charAt(i)`                      | —                          | 取字符                                                       | `int i`                                                      | `char`                                    | O(1)                         | O(1)       | 越界抛 `StringIndexOutOfBoundsException`                     |
+| `s.length()`                       | —                          | 字符串长度                                                   | —                                                            | `int`                                     | O(1)                         | O(1)       | —                                                            |
+| `s.substring(l,r)`                 | —                          | 截子串 `[l,r)`                                               | `int l, int r`                                               | `String`                                  | O(r-l)                       | O(r-l)     | 左闭右开，注意复制（会新建字符串）                           |
+| `s.toCharArray()`                  | —                          | 转 `char[]`                                                  | —                                                            | `char[]`                                  | O(n)                         | O(n)       | 双指针常用                                                   |
+| `s.toLowerCase()`                  | -                          | 将字符串中的所有字符转为小写（默认使用 JVM 的默认 Locale）   | -                                                            | `String`                                  | O(n)                         | O(n)       | 依赖默认 `Locale`，不同地区默认 Locale 可能导致结果差异（如土耳其语的 "I" 转换问题） |
+| `s.toLowerCase(Locale locale)`     | `import java.util.Locale;` | 将字符串中的所有字符转为小写，使用指定的 `Locale`            | Locale 对象                                                  | `String`                                  | O(n)                         | O(n)       | 推荐在国际化/跨地区环境中使用，避免因默认 `Locale` 不同导致的不一致结果 |
+| `s.indexOf()`                      | -                          | 查找子串或字符在字符串中首次出现的位置                       | 字符/字符串，起始下标（可选）                                | `int`<br />找到返回下标<br />找不到返回-1 | O(n·m)（n=原串长，m=子串长） |            | 若 str 为空串，返回 0                                        |
+| `s.lastIndexOf()`                  | -                          | 查找字串或字符最后一次出现的位置                             | 字符/字符串，起始下标（可选）（向前搜索）                    | `int`<br />找到返回下标<br />找不到返回-1 | O(n·m)（n=原串长，m=子串长） |            | 空串返回 length()                                            |
+| `s.startsWith()`                   | -                          | 判断字符串是否以指定前缀开头                                 | 前缀子串, 偏移量（可选）                                     | `boolean`                                 | O(m)（m=前缀长度）           |            | 区分大小写                                                   |
+| `s.endsWith()`                     | -                          | 判断是否以 suffix 结尾                                       | 后缀子串                                                     | `boolean`                                 | O(m)（m=后缀长度）           |            | 区分大小写                                                   |
+| `s.trim()`                         | -                          | 去掉字符串开头和结尾的 **空格（char ≤ U+0020 的空白字符）**  | -                                                            | 新的字符串                                | O(n)                         | O(n)       | 只能去掉首尾空格，不能删除字符串内部的空格。                 |
+| `s.strip()`                        | -                          | 去掉字符串开头和结尾的 **Unicode 空白字符**（比 `trim` 更强大，支持全角空格、换行符等） | -                                                            | 新的字符串                                |                              |            | 推荐优先用 `strip()`，因为 `trim()` 不能处理所有 Unicode 空格 |
+| `s.stripLeading()`                 | -                          | 去掉字符串 **开头的 Unicode 空白字符**                       | -                                                            |                                           |                              |            |                                                              |
+| `s.stripTrailing()`                | -                          | 去掉字符串 **结尾的 Unicode 空白字符**。                     |                                                              |                                           |                              |            |                                                              |
+| replace()                          | -                          | 替换字符串中的指定字符（可以用 `""` 删除）                   | `replace(char oldChar, char newChar)`<br />`replace(CharSequence target, CharSequence replacement)` | 新的字符串                                | O(n)                         |            |                                                              |
+| `s.replaceAll(regex, replacement)` |                            | 基于正则替换/删除字符                                        |                                                              |                                           | O(n)                         |            | 支持正则表达式，性能稍低于 `replace`。                       |
+| `sb.append(x)`                     | —                          | 追加                                                         | 任意 `x`                                                     | `StringBuilder`                           | O(1) 均摊                    | O(1)       | 推荐代替 `+` 拼接                                            |
+| `sb.reverse()`                     | —                          | 反转                                                         | —                                                            | `StringBuilder`                           | O(n)                         | O(1)       | 原地反转                                                     |
+| `sb.toString()`                    | —                          | 转 `String`                                                  | —                                                            | `String`                                  | O(n)                         | O(n)       | 返回新字符串                                                 |
 
 ### 示例代码
 
@@ -135,6 +141,25 @@ public class EndsWithDemo {
 
         System.out.println(s.endsWith("code"));   // true
         System.out.println(s.endsWith("leet"));   // false
+    }
+}
+```
+
+```java
+// Java String 常用的清理/删除字符 API
+public class StringCleanDemo {
+    public static void main(String[] args) {
+        String s1 = "   hello world   ";
+        System.out.println("trim: '" + s1.trim() + "'");
+        System.out.println("strip: '" + s1.strip() + "'");
+        System.out.println("stripLeading: '" + s1.stripLeading() + "'");
+        System.out.println("stripTrailing: '" + s1.stripTrailing() + "'");
+
+        String s2 = "apple pie";
+        System.out.println("remove p: '" + s2.replace("p", "") + "'");
+
+        String s3 = "a b\tc\nd";
+        System.out.println("remove whitespace: '" + s3.replaceAll("\\s+", "") + "'");
     }
 }
 ```
