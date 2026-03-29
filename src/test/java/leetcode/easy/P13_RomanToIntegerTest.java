@@ -11,8 +11,11 @@ public class P13_RomanToIntegerTest {
     @DisplayName("testRomanToInt")
     @ParameterizedTest
     @CsvSource({
+            "I, 1",
             "III, 3",
             "IV, 4",
+            "MIV, 1004",
+            "MIVI, 1005",
             "IX, 9",
             "XL, 40",
             "XC, 90",
